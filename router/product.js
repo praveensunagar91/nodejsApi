@@ -5,7 +5,10 @@ const Product=require('./productSchema');
 
 router.get('/',(req,res,next)=>{
    Product.find().exec().then(result=>{
-       res.status(200).json(result)
+       res.status(200).json({
+           message:'data fetched successfully',
+           data:result
+       })
      } ).catch(result=>{
          res.status(500).json({error:result});
      });
@@ -24,12 +27,13 @@ router.get('/:Id',(req,res,next)=>{
 
 router.post('/',(req,res,next)=>{
     const products= new Product({
-      _Id:mongoose.Types.ObjectId(),
+      _id:mongoose.Types.ObjectId(),
       name:req.body.name,
       country:req.body.country
     });
     products.save().then(result=>{
         res.status(200).json({
+            message:'record addded successfully',
             created:result
         })
     }).catch();
@@ -42,7 +46,7 @@ router.delete('/:Id',(req,res,next)=>{
         result=>{
             res.status(200).json({
                 message:'record removed successfully',
-                
+                removedData:result
             })
         }
     ).catch(result=>{
@@ -54,13 +58,17 @@ router.delete('/:Id',(req,res,next)=>{
 
 router.patch('/:Id',(req,res,next)=>{
    const id=req.params.Id;
-   Product.update({_id:id},{$set:{name:req.body.name,country:req.body.country}}).exec().then(
-       res.status(200).json({
+   Product.update({_id:id},{$set:{name:req.body.name,country:req.body.country}}).exec().then(result=>{
+    
+        res.status(200).json({
         
-           'message' :'record updated suceessfully'
-            
-        
-       })
+            'message' :'record updated suceessfully',
+             updatedData: result
+         
+        })
+    
+   }
+       
    ).catch(err=>{
        res.status(500).json({error:err});
    });
