@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 const prodSchema=mongoose.Schema({
-    _id:mongoose.Schema.Types.ObjectID,
+    _Id:mongoose.Schema.Types.ObjectID,
     name:String,
     country:String
 });

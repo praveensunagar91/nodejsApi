@@ -11,9 +11,20 @@ router.get('/',(req,res,next)=>{
      });
 });
 
+router.get('/:Id',(req,res,next)=>{
+    const id=req.params.Id;
+    Product.findById({_id:id}).exec().then(result=>{
+        res.status(200).json({
+            data:result
+        })
+    }).catch(err=>{
+        res.status(404).json(err);
+    });
+})
+
 router.post('/',(req,res,next)=>{
     const products= new Product({
-      _id:mongoose.Types.ObjectId(),
+      _Id:mongoose.Types.ObjectId(),
       name:req.body.name,
       country:req.body.country
     });
